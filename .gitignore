@@ -1,0 +1,10 @@
+/.settings
+/Drivers/CMSIS
+/Drivers/STM32F4xx_HAL_Driver
+/startup
+.cproject
+.mxproject
+.project
+STM32F412ZG_FLASH.ld
+water_station.elf.launch
+water_station.ioc

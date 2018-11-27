@@ -52,6 +52,7 @@
 #include <time.h>
 #include <sys/time.h>
 #include <sys/times.h>
+#include "usart.h"
 
 
 /* Variables */
@@ -107,6 +108,8 @@ int _write(int file, char *ptr, int len)
 	for (DataIdx = 0; DataIdx < len; DataIdx++)
 	{
 		__io_putchar(*ptr++);
+		// Redirection of printf to uart2
+
 	}
 	return len;
 }

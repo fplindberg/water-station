@@ -49,7 +49,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
-#include "../Drivers/BMP280_driver-master/bmp280.h"
+#include "interrupts.h"
+#include "bmp280_interface.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -127,6 +128,10 @@ int main(void)
 	// Initiate private variables
 	UART_RX_BUFFER[0] = 0;
 	int8_t readstatus = STATUS_OK;
+
+	// Initiate library for communication with the bmp280 chip
+	struct bmp280_dev bmp280;
+	readstatus = Init_bmp280(&bmp280);
   /* USER CODE END 2 */
 
   /* Infinite loop */

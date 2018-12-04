@@ -62,8 +62,8 @@
 /* USER CODE BEGIN PD */
 #define FIRMWARE_VERSION "0.1.0"
 
-#define STATUS_OK 0
-#define STATUS_ERROR -1
+#define STATUS_OK 1
+#define STATUS_ERROR 0
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -131,7 +131,7 @@ int main(void)
 
 	// Initiate library for communication with the bmp280 chip
 	struct bmp280_dev bmp280;
-	readstatus = Init_bmp280(&bmp280);
+	readstatus = BMP280_Init(&bmp280);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -147,6 +147,7 @@ int main(void)
 	  HAL_Delay(100);
 	  HAL_GPIO_WritePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin, GPIO_PIN_SET);
 	  HAL_Delay(100);
+	  readstatus = BMP280_Read(&bmp280);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -218,12 +219,12 @@ static void Blink_ok(void){
 }
 static void Blink_error(void){
 	HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_RESET);
-		HAL_Delay(100);
-		HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_SET);
-		HAL_Delay(100);
-		HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_RESET);
-		HAL_Delay(100);
-		HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_SET);
+	HAL_Delay(100);
+	HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_SET);
+	HAL_Delay(100);
+	HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_RESET);
+	HAL_Delay(100);
+	HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_SET);
 }
 /* USER CODE END 4 */
 

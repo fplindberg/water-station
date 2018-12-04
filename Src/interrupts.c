@@ -7,6 +7,10 @@
 
 #include "interrupts.h"
 
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
+	// Handle GPIO EXTI interrupt
+}
+
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart){
 	// Handle UART TX interrupt
 }

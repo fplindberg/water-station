@@ -107,9 +107,9 @@ int _write(int file, char *ptr, int len)
 
 	for (DataIdx = 0; DataIdx < len; DataIdx++)
 	{
-		__io_putchar(*ptr++);
+		//__io_putchar(*ptr++);
 		// Redirection of printf to uart2
-
+		HAL_UART_Transmit_IT(&huart2, *ptr++, 8);
 	}
 	return len;
 }

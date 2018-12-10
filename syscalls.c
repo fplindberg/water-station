@@ -109,7 +109,7 @@ int _write(int file, char *ptr, int len)
 	{
 		//__io_putchar(*ptr++);
 		// Redirection of printf to uart2
-		HAL_UART_Transmit_IT(&huart2, *ptr++, 8);
+		HAL_UART_Transmit_IT(&huart2, *ptr++, 1);
 	}
 	return len;
 }

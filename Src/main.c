@@ -80,8 +80,8 @@ static uint8_t UART_RX_BUFFER[256];
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-static void Blink_ok(void);
-static void Blink_error(void);
+static void Print_ok(char* func);
+static void Print_error(char* func);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -132,22 +132,34 @@ int main(void)
 	// Initiate library for communication with the bmp280 chip
 	struct bmp280_dev bmp280;
 	readstatus = BMP280_Init(&bmp280);
+	if(readstatus == STATUS_OK){
+		Print_ok("BMP280_Init");
+	}
+	else{
+		Print_error("BMP280_Init");
+	}
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  // Heartbeat blink led
-	  HAL_GPIO_WritePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin, GPIO_PIN_RESET);
-	  HAL_Delay(200);
-	  HAL_GPIO_WritePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin, GPIO_PIN_SET);
-	  HAL_Delay(100);
-	  HAL_GPIO_WritePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin, GPIO_PIN_RESET);
-	  HAL_Delay(100);
-	  HAL_GPIO_WritePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin, GPIO_PIN_SET);
-	  HAL_Delay(100);
-	  readstatus = BMP280_Read(&bmp280);
+		// Heartbeat blink led
+		HAL_GPIO_WritePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin, GPIO_PIN_RESET);
+		HAL_Delay(200);
+		HAL_GPIO_WritePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin, GPIO_PIN_SET);
+		HAL_Delay(100);
+		HAL_GPIO_WritePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin, GPIO_PIN_RESET);
+		HAL_Delay(100);
+		HAL_GPIO_WritePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin, GPIO_PIN_SET);
+		HAL_Delay(100);
+		readstatus = BMP280_Read(&bmp280);
+		if(readstatus == STATUS_OK){
+		  Print_ok("BMP280_Read");
+		}
+		else{
+		  Print_error("BMP280_Read");
+		}
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -208,23 +220,11 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 // Static functions for OK and ERROR blinking
-static void Blink_ok(void){
-	HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, GPIO_PIN_RESET);
-	HAL_Delay(100);
-	HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, GPIO_PIN_SET);
-	HAL_Delay(100);
-	HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, GPIO_PIN_RESET);
-	HAL_Delay(100);
-	HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, GPIO_PIN_SET);
+static void Print_ok(char* func){
+	printf("%s: Executed ok\r\n", func);
 }
-static void Blink_error(void){
-	HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_RESET);
-	HAL_Delay(100);
-	HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_SET);
-	HAL_Delay(100);
-	HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_RESET);
-	HAL_Delay(100);
-	HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_SET);
+static void Print_error(char* func){
+	printf("%s: Executed with error\r\n", func);
 }
 /* USER CODE END 4 */
 

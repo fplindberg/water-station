@@ -15,15 +15,15 @@ int8_t BMP280_SPI_Read(uint8_t dev_id, uint8_t reg_addr, uint8_t *data, uint16_t
 	printf("Bytes: %d -->", len);
 
 	// Write register address control byte
-	HAL_SPI_Transmit(&hspi2, reg_addr, 8, 0);
+	HAL_SPI_Transmit(&hspi2, &reg_addr, 1, 0);
 	printf(" -w-0x%x", reg_addr);
 
 	// Loop for len times to receive all data
 	do{
 		// Write dummy word to read bytes
-		HAL_SPI_Transmit(&hspi2, (uint8_t)0xFF, 8, 0);
+		HAL_SPI_Transmit(&hspi2, (uint8_t*)0xFF, 1, 0);
 		// Read and store data
-		HAL_SPI_Receive(&hspi2, data[cnt], 8, 0);
+		HAL_SPI_Receive(&hspi2, &data[cnt], 1, 0);
 		printf(" -r-0x%x", data[cnt]);
 		cnt++;
 	} while(len > cnt);
@@ -38,13 +38,13 @@ int8_t BMP280_SPI_Write(uint8_t dev_id, uint8_t reg_addr, uint8_t *data, uint16_
 	printf("Bytes: %d -->", len);
 
 	// Write register address control byte
-	HAL_SPI_Transmit(&hspi2, reg_addr, 8, 0);
+	HAL_SPI_Transmit(&hspi2, &reg_addr, 1, 0);
 	printf(" -w-0x%x", reg_addr);
 
 	// Loop for len times to write all data
 	do{
 		// Write data to register address
-		HAL_SPI_Transmit(&hspi2, data[cnt], 8, 0);
+		HAL_SPI_Transmit(&hspi2, &data[cnt], 1, 0);
 		printf(" -w-0x%x", data[cnt]);
 		cnt++;
 	} while(len > cnt);
@@ -115,8 +115,8 @@ int8_t BMP280_Init(struct bmp280_dev *bmp){
 	return 1;
 }
 
-static int8_t BMP280_Read(struct bmp280_dev *bmp){
-	HAL_GPIO_WritePin(LED_ORANGE_GPIO_Port, LED_ORANGE_Pin, GPIO_PIN_RESET);
+int8_t BMP280_Read(struct bmp280_dev *bmp){
+	HAL_GPIO_WritePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin, GPIO_PIN_RESET);
 
 	int8_t rslt;
 	struct bmp280_uncomp_data ucomp_data;
@@ -152,6 +152,6 @@ static int8_t BMP280_Read(struct bmp280_dev *bmp){
 
 	bmp->delay_ms(1000); /* Sleep time between measurements = BMP280_ODR_1000_MS */
 
-	HAL_GPIO_WritePin(LED_ORANGE_GPIO_Port, LED_ORANGE_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin, GPIO_PIN_SET);
 	return 1;
 }

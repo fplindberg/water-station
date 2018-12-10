@@ -1,4 +1,5 @@
 /.settings
+/Debug
 /Drivers
 /startup
 .cproject

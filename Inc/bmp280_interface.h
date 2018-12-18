@@ -16,8 +16,8 @@ int8_t BMP280_SPI_Write(uint8_t dev_id, uint8_t reg_addr, uint8_t *data, uint16_
 
 void BMP280_Delay_ms(uint32_t period);
 
-int8_t BMP280_Init(struct bmp280_dev *bmp);
+int8_t BMP280_Init(struct bmp280_dev *bmp, struct bmp280_config *conf);
 
-int8_t BMP280_Read(struct bmp280_dev *bmp);
+int8_t BMP280_Forced_Read(struct bmp280_dev *bmp, double temp, double pres);
 
 #endif /* BMP280_INTERFACE_H_ */

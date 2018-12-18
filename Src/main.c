@@ -125,14 +125,31 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	printf("Firmware version: %s\r\n", FIRMWARE_VERSION);
 
+	// Clear global bmp280 flag. Flag is set when reading should be done
+	BMP280_READ_FLAG = 0;
+
 	// Initiate private variables
 	UART_RX_BUFFER[0] = 0;
-	int8_t readstatus = STATUS_OK;
+	int8_t bmp280_initstatus = STATUS_OK;
+	int8_t bmp280_readstatus = STATUS_OK;
 
 	// Initiate library for communication with the bmp280 chip
 	struct bmp280_dev bmp280;
-	readstatus = BMP280_Init(&bmp280);
-	if(readstatus == STATUS_OK){
+
+	// Set bmp280 configuration parameters
+	struct bmp280_config bmp280_conf;
+	bmp280_conf.os_pres = BMP280_OS_1X;
+	bmp280_conf.os_temp = BMP280_OS_1X;
+	bmp280_conf.odr = BMP280_ODR_1000_MS;
+	bmp280_conf.filter = BMP280_FILTER_COEFF_2;
+
+	// Create variables to store temp and pres measurements
+	double temperature = 0.00;
+	double pressure = 0.00;
+
+	// Initiate bmp280 sensor
+	bmp280_initstatus = BMP280_Init(&bmp280, &bmp280_conf);
+	if(bmp280_initstatus == STATUS_OK){
 		Print_ok("BMP280_Init");
 	}
 	else{
@@ -152,13 +169,18 @@ int main(void)
 		HAL_GPIO_WritePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin, GPIO_PIN_RESET);
 		HAL_Delay(100);
 		HAL_GPIO_WritePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin, GPIO_PIN_SET);
-		HAL_Delay(100);
-		readstatus = BMP280_Read(&bmp280);
-		if(readstatus == STATUS_OK){
-		  Print_ok("BMP280_Read");
-		}
-		else{
-		  Print_error("BMP280_Read");
+		HAL_Delay(500);
+
+		// If RTC interrupt triggered, make bmp280 measurement
+		if(BMP280_READ_FLAG && (bmp280_readstatus == STATUS_OK)){
+			bmp280_readstatus = BMP280_Forced_Read(&bmp280, temperature, pressure);
+			if(bmp280_readstatus == STATUS_OK){
+			  Print_ok("BMP280_Forced_Read");
+			}
+			else{
+			  Print_error("BMP280_Forced_Read");
+			}
+			BMP280_READ_FLAG = 0;
 		}
     /* USER CODE END WHILE */
 

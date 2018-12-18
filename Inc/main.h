@@ -62,7 +62,7 @@ extern "C" {
 
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
-
+uint8_t BMP280_READ_FLAG;
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/
@@ -96,6 +96,8 @@ void Error_Handler(void);
 #define BUTTON_DOWN_Pin GPIO_PIN_1
 #define BUTTON_DOWN_GPIO_Port GPIOG
 #define BUTTON_DOWN_EXTI_IRQn EXTI1_IRQn
+#define SPI2_NSS_BMP280_Pin GPIO_PIN_12
+#define SPI2_NSS_BMP280_GPIO_Port GPIOB
 #define LED_GREEN_Pin GPIO_PIN_0
 #define LED_GREEN_GPIO_Port GPIOE
 #define LED_ORANGE_Pin GPIO_PIN_1

@@ -31,4 +31,6 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart){
 void HAL_RTC_AlarmAEventCallback(RTC_HandleTypeDef *hrtc){
 	// Handle RTC Alarm A interrupt
 	HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
+	// Set global bmp280 read flag to get temp and pres from bmp280 sensor
+	BMP280_READ_FLAG = 1;
 }

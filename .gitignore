@@ -2,9 +2,11 @@
 /Debug
 /Drivers
 /startup
+.code_review_properties
 .cproject
 .mxproject
 .project
 STM32F412ZG_FLASH.ld
+syscalls.c
 water_station.elf.launch
 water_station.ioc

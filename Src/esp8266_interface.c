@@ -5,4 +5,10 @@
  *      Author: fp
  */
 
+static int8_t ESP8266_Get_Connection_ID(uint8_t *ip){
 
+}
+
+static int8_t ESP8266_Get_Connection_Status(void){
+
+}
